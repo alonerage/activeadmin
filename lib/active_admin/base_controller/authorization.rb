@@ -24,7 +24,7 @@ module ActiveAdmin
 
       ACTIONS_DICTIONARY = {
         :index   => ActiveAdmin::Authorization::READ,
-        :show    => ActiveAdmin::Authorization::READ,
+        :show    => ActiveAdmin::Authorization::SHOW,
         :new     => ActiveAdmin::Authorization::CREATE,
         :create  => ActiveAdmin::Authorization::CREATE,
         :edit    => ActiveAdmin::Authorization::UPDATE,

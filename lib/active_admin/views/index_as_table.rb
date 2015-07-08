@@ -155,7 +155,11 @@ module ActiveAdmin
         # Display a column for the id
         def id_column
           column(resource_class.human_attribute_name(resource_class.primary_key), :sortable => resource_class.primary_key) do |resource|
-            link_to resource.id, resource_path(resource), :class => "resource_id_link"
+            if controller.action_methods.include?('show') && authorized?(ActiveAdmin::Auth::SHOW, resource)
+              link_to resource.id, resource_path(resource), :class => "resource_id_link"
+            else
+              resource.id
+            end
           end
         end
 
@@ -187,7 +191,7 @@ module ActiveAdmin
         def default_actions(*args)
           links = proc do |resource|
             links = ''.html_safe
-            if controller.action_methods.include?('show') && authorized?(ActiveAdmin::Auth::READ, resource)
+            if controller.action_methods.include?('show') && authorized?(ActiveAdmin::Auth::SHOW, resource)
               links << link_to(I18n.t('active_admin.view'), resource_path(resource), :class => "member_link view_link")
             end
             if controller.action_methods.include?('edit') && authorized?(ActiveAdmin::Auth::UPDATE, resource)
