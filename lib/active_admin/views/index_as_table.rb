@@ -197,7 +197,7 @@ module ActiveAdmin
             if controller.action_methods.include?('edit') && authorized?(ActiveAdmin::Auth::UPDATE, resource)
               links << link_to(I18n.t('active_admin.edit'), edit_resource_path(resource), :class => "member_link edit_link")
             end
-            if controller.action_methods.include?('destroy') && authorized?(ActiveAdmin::Auth::DESTROY, resource)
+            if controller.action_methods.include?('destroy') && authorized?(ActiveAdmin::Auth::DESTROY, resource) && !(resource.respond_to?(:archived?) && resource.archived?)
               links << link_to(I18n.t('active_admin.delete'), resource_path(resource), :method => :delete, :data => {:confirm => I18n.t('active_admin.delete_confirmation')}, :class => "member_link delete_link")
             end
             links

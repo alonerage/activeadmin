@@ -67,7 +67,7 @@ module ActiveAdmin
 
         # Destroy link on show
         add_action_item :only => :show do
-          if controller.action_methods.include?("destroy") && authorized?(ActiveAdmin::Auth::DESTROY, resource)
+          if controller.action_methods.include?("destroy") && authorized?(ActiveAdmin::Auth::DESTROY, resource) && !(resource.respond_to?(:archived?) && resource.archived?)
             link_to(I18n.t('active_admin.delete_model', :model => active_admin_config.resource_label),
               resource_path(resource),
               :method => :delete, :data => {:confirm => I18n.t('active_admin.delete_confirmation')})

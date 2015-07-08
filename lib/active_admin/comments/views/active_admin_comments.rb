@@ -23,7 +23,8 @@ module ActiveAdmin
 
         def build_comments
           @comments.any? ? @comments.each(&method(:build_comment)) : build_empty_message
-          build_comment_form
+          #TODO переписать на authorized
+          build_comment_form if Ability.new(current_user).can?(:create, ActiveAdmin::Comment)
         end
 
         def build_comment(comment)
