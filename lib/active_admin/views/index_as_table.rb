@@ -189,6 +189,7 @@ module ActiveAdmin
         end
 
         def default_actions(*args)
+          p resource_name
           links = proc do |resource|
             links = ''.html_safe
             if controller.action_methods.include?('show') && authorized?(ActiveAdmin::Auth::VIEW, resource)
