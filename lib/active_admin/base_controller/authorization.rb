@@ -70,6 +70,7 @@ module ActiveAdmin
       # @returns [Boolean] True if authorized, otherwise raises
       #                 an ActiveAdmin::AccessDenied.
       def authorize!(action, subject = nil)
+        p action
         unless authorized? action, subject
           raise ActiveAdmin::AccessDenied.new(current_active_admin_user,
                                               action,
