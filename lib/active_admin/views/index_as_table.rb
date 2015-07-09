@@ -189,7 +189,10 @@ module ActiveAdmin
         end
 
         def default_actions(*args)
-          p resource_name
+          res_class = collection.first.class
+          return false if !(authorized?(ActiveAdmin::Auth::VIEW, res_class) ||
+                            authorized?(ActiveAdmin::Auth::UPDATE, res_class) ||
+                            authorized?(ActiveAdmin::Auth::DESTROY, res_class))
           links = proc do |resource|
             links = ''.html_safe
             if controller.action_methods.include?('show') && authorized?(ActiveAdmin::Auth::VIEW, resource)
