@@ -24,7 +24,7 @@ module ActiveAdmin
 
       ACTIONS_DICTIONARY = {
         :index   => ActiveAdmin::Authorization::READ,
-        :show    => ActiveAdmin::Authorization::SHOW,
+        :show    => ActiveAdmin::Authorization::VIEW,
         :new     => ActiveAdmin::Authorization::CREATE,
         :create  => ActiveAdmin::Authorization::CREATE,
         :edit    => ActiveAdmin::Authorization::UPDATE,
@@ -114,7 +114,6 @@ module ActiveAdmin
       # @returns [Symbol] The permission name to use.
       def action_to_permission(action)
         if action && action = action.to_sym
-          p Authorization::ACTIONS_DICTIONARY[action] || action
           Authorization::ACTIONS_DICTIONARY[action] || action
         end
       end
