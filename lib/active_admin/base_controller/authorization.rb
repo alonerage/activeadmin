@@ -70,7 +70,6 @@ module ActiveAdmin
       # @returns [Boolean] True if authorized, otherwise raises
       #                 an ActiveAdmin::AccessDenied.
       def authorize!(action, subject = nil)
-        p action
         unless authorized? action, subject
           raise ActiveAdmin::AccessDenied.new(current_active_admin_user,
                                               action,
@@ -115,6 +114,7 @@ module ActiveAdmin
       # @returns [Symbol] The permission name to use.
       def action_to_permission(action)
         if action && action = action.to_sym
+          p Authorization::ACTIONS_DICTIONARY[action] || action
           Authorization::ACTIONS_DICTIONARY[action] || action
         end
       end
