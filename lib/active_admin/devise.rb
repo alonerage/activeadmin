@@ -56,6 +56,20 @@ module ActiveAdmin
 
     class SessionsController < ::Devise::SessionsController
       include ::ActiveAdmin::Devise::Controller
+
+      def after_sign_in_path_for(resource)
+        path = stored_location_for(resource) ||
+        if can?(:read, ActiveAdmin::Page, :name => "Dashboard")
+          admin_dashboard_path
+        elsif can?(:read, Card)
+          admin_cards_path
+        else
+          admin_user_path(current_user)
+        end
+
+        return path
+      end
+
     end
 
     class PasswordsController < ::Devise::PasswordsController
