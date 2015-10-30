@@ -120,7 +120,7 @@ module ActiveAdmin
               :from => offset + 1, :to => offset + collection_size
           else
             I18n.t 'active_admin.pagination.multiple_without_total', :model => entries_name,
-              :from => offset + 1, :to => offset + collection_size
+              :from => offset + 1, :to => offset + 1000
           end
         end
       end
