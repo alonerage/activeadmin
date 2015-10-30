@@ -42,6 +42,10 @@ module ActiveAdmin
         @display_total  = options.delete(:pagination_total)
         @display_total = true if @display_total.nil?
 
+        unless @display_total
+          collection.num_pages = 10000 # их больше, но едва ли понадобится больше
+        end
+
         unless collection.respond_to?(:num_pages)
           raise(StandardError, "Collection is not a paginated scope. Set collection.page(params[:page]).per(10) before calling :paginated_collection.")
         end
