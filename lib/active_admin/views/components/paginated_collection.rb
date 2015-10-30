@@ -43,7 +43,9 @@ module ActiveAdmin
         @display_total = true if @display_total.nil?
 
         unless @display_total
-          collection.num_pages = 10000 # их больше, но едва ли понадобится больше
+          def collection.num_pages
+            10000 # их больше, но едва ли понадобится больше
+          end
         end
 
         unless collection.respond_to?(:num_pages)
