@@ -83,10 +83,22 @@ module ActiveAdmin
       end
 
       def build_pagination
-        options =  request.query_parameters.except(:commit, :format)
+        options = {}
+        options[:params]     = @params     if @params
         options[:param_name] = @param_name if @param_name
 
-        text_node paginate(collection, options.symbolize_keys)
+        if !@display_total && collection.respond_to?(:offset)
+          # The #paginate method in kaminari will query the resource with a
+          # count(*) to determine how many pages there should be unless
+          # you pass in the :total_pages option. We issue a query to determine
+          # if there is another page or not, but the limit/offset make this
+          # query fast.
+          offset = collection.offset(collection.current_page * @per_page.to_i).limit(1).count
+          options[:total_pages] = collection.current_page + offset
+          options[:right] = 0
+        end
+
+        text_node paginate collection, options
       end
 
       include ::ActiveAdmin::Helpers::Collection
