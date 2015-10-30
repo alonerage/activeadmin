@@ -16,7 +16,7 @@ module ActiveAdmin
       end
 
       def collection_is_empty?(collection=collection)
-        collection_size(collection) == 0
+        collection.length == 0
       end
     end
   end
