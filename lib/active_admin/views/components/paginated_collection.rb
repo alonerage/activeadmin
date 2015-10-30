@@ -106,23 +106,49 @@ module ActiveAdmin
           entries_name = I18n.translate key, :count => collection.size, :default => entry_name.pluralize
         end
 
-        if collection.num_pages < 2
-          case collection_size
-          when 0; I18n.t('active_admin.pagination.empty',    :model => entries_name)
-          when 1; I18n.t('active_admin.pagination.one',      :model => entry_name)
-          else;   I18n.t('active_admin.pagination.one_page', :model => entries_name, :n => collection.total_count)
+
+        if @display_total
+          if collection.num_pages < 2
+            case collection_size
+            when 0; I18n.t("active_admin.pagination.empty",    model: entries_name)
+            when 1; I18n.t("active_admin.pagination.one",      model: entry_name)
+            else;   I18n.t("active_admin.pagination.one_page", model: entries_name, n: collection.total_count)
+            end
+          else
+            offset = (collection.current_page - 1) * collection.limit_value
+            total  = collection.total_count
+            I18n.t "active_admin.pagination.multiple",
+                   model: entries_name,
+                   total: total,
+                   from: offset + 1,
+                   to: offset + collection_size
           end
         else
+          # Do not display total count, in order to prevent a `SELECT count(*)`.
+          # To do so we must not call `collection.num_pages`
           offset = (collection.current_page - 1) * collection.limit_value
-          if @display_total
-            total  = collection.total_count
-            I18n.t 'active_admin.pagination.multiple', :model => entries_name, :total => total,
-              :from => offset + 1, :to => offset + collection_size
-          else
-            I18n.t 'active_admin.pagination.multiple_without_total', :model => entries_name,
-              :from => offset + 1, :to => offset + 1000
-          end
+          I18n.t "active_admin.pagination.multiple_without_total",
+                 model: entries_name,
+                 from: offset + 1,
+                 to: offset + collection_size
         end
+        # if (collection.length % 30) < 2
+        #   case collection_size
+        #   when 0; I18n.t('active_admin.pagination.empty',    :model => entries_name)
+        #   when 1; I18n.t('active_admin.pagination.one',      :model => entry_name)
+        #   else;   I18n.t('active_admin.pagination.one_page', :model => entries_name, :n => collection.total_count)
+        #   end
+        # else
+        #   offset = (collection.current_page - 1) * collection.limit_value
+        #   if @display_total
+        #     total  = collection.total_count
+        #     I18n.t 'active_admin.pagination.multiple', :model => entries_name, :total => total,
+        #       :from => offset + 1, :to => offset + collection_size
+        #   else
+        #     I18n.t 'active_admin.pagination.multiple_without_total', :model => entries_name,
+        #       :from => offset + 1, :to => offset + 1000
+        #   end
+        # end
       end
 
     end
