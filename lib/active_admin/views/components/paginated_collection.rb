@@ -39,7 +39,7 @@ module ActiveAdmin
         @collection     = collection
         @param_name     = options.delete(:param_name)
         @download_links = options.delete(:download_links)
-        @display_total  = options.delete(:pagination_total) { true }
+        @display_total  = options.delete(:pagination_total) || true
 
         unless collection.respond_to?(:num_pages)
           raise(StandardError, "Collection is not a paginated scope. Set collection.page(params[:page]).per(10) before calling :paginated_collection.")
