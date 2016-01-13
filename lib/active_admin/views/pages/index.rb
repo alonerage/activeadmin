@@ -41,7 +41,7 @@ module ActiveAdmin
         include ::ActiveAdmin::Helpers::Collection
 
         def items_in_collection?
-          !collection_is_empty?
+          !collection_is_empty?(collection)
         end
 
         def build_collection
