@@ -141,7 +141,7 @@ module ActiveAdmin
           pagination_total = config[:pagination_total].nil? ? true : config[:pagination_total]
 
           paginated_collection(collection, :entry_name     => active_admin_config.resource_label,
-                                           :entries_name   => active_admin_config.plural_resource_label(:count => collection_size),
+                                           :entries_name   => active_admin_config.plural_resource_label(:count => collection_size(collection)),
                                            :download_links => download_links,
                                            :paginator      => paginator,
                                            :pagination_total => pagination_total) do
