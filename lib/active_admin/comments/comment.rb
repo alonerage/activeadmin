@@ -23,9 +23,10 @@ module ActiveAdmin
     end
 
     def self.find_for_resource_in_namespace(resource, namespace)
-      where :resource_type => resource_type(resource),
-            :resource_id   => resource_id_cast(resource),
-            :namespace     => namespace.to_s
+      where(:resource_type => resource_type(resource)).
+      where(:resource_id   => resource_id_cast(resource)).
+      where(:namespace     => namespace.to_s).
+      includes(:author)
     end
 
     def self.resource_id_type
